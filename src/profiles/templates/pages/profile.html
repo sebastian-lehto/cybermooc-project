@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Profiles</title>
+    </head>
+
+    <body>
+		<h1>User</h1>
+
+        <table>
+            <tr>
+                <th style="text-align:left">{{user.username}}</th>
+            </tr>
+			{% for data in user.data %}
+			<tr>
+                <td style="text-align:left">
+                    data
+                </td>
+			</tr>	
+			{% endfor %}
+        </table>
+
+        
+    </body>
+
+
+    </body>
+</html>
