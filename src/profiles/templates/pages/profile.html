@@ -30,7 +30,6 @@
 			</tr>
         </table>
         
-        <!-- if user.username == admin -->
         <form action="/delete/{{user.uid}}" method="POST">
             {% csrf_token %}
             <input type="submit" value="DELETE">
