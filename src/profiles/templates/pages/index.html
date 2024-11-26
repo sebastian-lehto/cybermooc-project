@@ -3,8 +3,17 @@
     <head>
         <title>Profiles</title>
     </head>
-
+    
     <body>
+        <form action="logout" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="Log Out">
+        </form>
+
+        <form action="info" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="User Information">
+        </form>
 		<h1>Registered users</h1>
 
         <table>

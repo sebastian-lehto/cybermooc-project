@@ -9,32 +9,29 @@
             {% csrf_token %}
             <input type="submit" value="Back">
         </form>
-		<h1>User</h1>
-
+		<h1>Information</h1>
+        <br>
         <table>
             <tr>
                 <th style="text-align:left">Username</th>
-                <th style="text-align:left">UserID</th>
+                <th style="text-align:left">Password</th>
                 <th style="text-align:left">Email</th>
             </tr>
+			{% for user in users %}
 			<tr>
                 <td>
                     {{user.username}}
                 </td>
                 <td>
-                    {{user.uid}}
+                    {{user.password}}
                 </td>
                 <td>
                     {{user.email}}
                 </td>
-			</tr>
+			</tr>	
+			{% endfor %}
         </table>
-        
-        <!-- if user.username == admin -->
-        <form action="/delete/{{user.uid}}" method="POST">
-            {% csrf_token %}
-            <input type="submit" value="DELETE">
-        </form>
+
         
     </body>
 
