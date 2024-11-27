@@ -16,8 +16,8 @@ def index(request):
     
     return render(request, 'pages/index.html', context)
 
-def loginView(request):
-    return render(request, 'pages/login.html')
+
+
 
 @csrf_exempt
 def login(request):
@@ -57,3 +57,5 @@ def deleteView(request, uid):
     users = User.objects.all()
     context = {"users": users}
     
+def loginView(request):
+    return render(request, 'pages/login.html')
