@@ -19,6 +19,7 @@ def index(request):
 def loginView(request):
     return render(request, 'pages/login.html')
 
+
 @csrf_exempt
 def login(request):
     username = request.POST["username"]
@@ -49,6 +50,10 @@ def profileView(request, uid):
     return render(request, 'pages/profile.html', context)
 
 def deleteView(request, uid):
+    """
+    if not request.session['username'] == "admin":
+        return redirect('index')
+    """
     User.objects.get(uid=uid).delete()
 
     users = User.objects.all()
