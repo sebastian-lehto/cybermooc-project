@@ -5,10 +5,12 @@
     </head>
 
     <body>
+        <!-- {% if user.username == admin %} -->
         <form action="/" method="POST">
             {% csrf_token %}
             <input type="submit" value="Back">
         </form>
+        <!-- {% endif %} -->
 		<h1>User</h1>
 
         <table>

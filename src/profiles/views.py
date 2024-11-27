@@ -5,29 +5,28 @@ from django.http import HttpResponse
 from .models import User
 
 def index(request):
-    if not request.session.get('username'):
-        return redirect(loginView)
-    
+    if not request.session.get('username'): return redirect(loginView)
+    User.objects.all().delete()
     User.objects.update_or_create(username="Bob", uid=1, password="1234", email="bob@mail.com")[0].save()
     User.objects.update_or_create(username="Leah", uid=2, password="1234", email="leah@mail.com")[0].save()
-    User.objects.update_or_create(username="Martin", uid=3, password="12345", email="martin@mail.com")[0].save()
-
-    users = User.objects.all()
+    User.objects.update_or_create(username="Martin", uid=3, password="1234", email="martin@mail.com")[0].save()
+    User.objects.update_or_create(username="admin", uid=0, password="12345", email="admin@mail.com")[0].save()
+    users = User.objects.exclude(username="admin")
     context = {"users": users}
+    
     return render(request, 'pages/index.html', context)
 
 def loginView(request):
     return render(request, 'pages/login.html')
 
-
 @csrf_exempt
 def login(request):
+    
     username = request.POST["username"]
     password = request.POST["password"]
     try:
-        if username == "admin" and password == "admin":
-            request.session['username'] = "admin"
-            return redirect('index')
+        # Fix: A more secure authentication method with the Django authenitcation system
+        
         if User.objects.get(username=username).password == password:
             request.session['username'] = username
             return redirect('index')
@@ -58,4 +57,4 @@ def deleteView(request, uid):
 
     users = User.objects.all()
     context = {"users": users}
-    v
+    
