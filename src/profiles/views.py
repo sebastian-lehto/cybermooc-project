@@ -26,7 +26,7 @@ def login(request):
     password = request.POST["password"]
     try:
         # Fix: A more secure authentication method with the Django authenitcation system
-        
+        # user = authenticate(request, username=username, password=password)
         if User.objects.get(username=username).password == password:
             request.session['username'] = username
             return redirect('index')
@@ -49,10 +49,9 @@ def profileView(request, uid):
     return render(request, 'pages/profile.html', context)
 
 def deleteView(request, uid):
-    """
-    if not request.session['username'] == "admin":
-        return redirect('index')
-    """
+    # @staff_member_required       or
+    # user.has_perm("myapp.delete_users")
+
     User.objects.get(uid=uid).delete()
 
     users = User.objects.all()
