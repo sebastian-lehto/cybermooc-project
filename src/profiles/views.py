@@ -6,17 +6,11 @@ from .models import User
 
 def index(request):
     if not request.session.get('username'): return redirect(loginView)
-    User.objects.all().delete()
-    User.objects.update_or_create(username="Bob", uid=1, password="1234", email="bob@mail.com")[0].save()
-    User.objects.update_or_create(username="Leah", uid=2, password="1234", email="leah@mail.com")[0].save()
-    User.objects.update_or_create(username="Martin", uid=3, password="1234", email="martin@mail.com")[0].save()
-    User.objects.update_or_create(username="admin", uid=0, password="12345", email="admin@mail.com")[0].save()
+
     users = User.objects.exclude(username="admin")
     context = {"users": users}
     
     return render(request, 'pages/index.html', context)
-
-
 
 
 @csrf_exempt
@@ -58,4 +52,12 @@ def deleteView(request, uid):
     context = {"users": users}
     
 def loginView(request):
+    setUp()
     return render(request, 'pages/login.html')
+
+def setUp():
+    User.objects.all().delete()
+    User.objects.update_or_create(username="Bob", uid=1, password="1234", email="bob@mail.com")[0].save()
+    User.objects.update_or_create(username="Leah", uid=2, password="1234", email="leah@mail.com")[0].save()
+    User.objects.update_or_create(username="Martin", uid=3, password="1234", email="martin@mail.com")[0].save()
+    User.objects.update_or_create(username="admin", uid=0, password="12345", email="admin@mail.com")[0].save()
