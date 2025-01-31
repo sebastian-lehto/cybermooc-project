@@ -40,6 +40,9 @@ def logout(request):
 def profileView(request, uid):
 
     ## Fix: Korjatussa versiossa id:n sijasta profiili haetaan käyttäjänimen avulla
+    ## profileView(request, USERNAME):
+    ##   user = User.objects.get(username=USERNAME)
+    ##   ...
     user = User.objects.get(uid=uid)
     context = {"user": user}
     return render(request, 'pages/profile.html', context)
