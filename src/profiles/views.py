@@ -39,7 +39,7 @@ def logout(request):
 
 def profileView(request, uid):
 
-    ## Fix: Korjatussa versiossa id:n sijasta profiili haetaan käyttäjänimen avulla
+    ## Fix: Use username to get profile instead of the user id
     ## profileView(request, USERNAME):
     ##   user = User.objects.get(username=USERNAME)
     ##   ...
@@ -48,8 +48,8 @@ def profileView(request, uid):
     return render(request, 'pages/profile.html', context)
 
 def deleteView(request, uid):
-    # Fix: @staff_member_required       or
-    # user.has_perm("myapp.delete_users")
+    # Fix: Use built-in permissions 
+    # @staff_member_required  or  user.has_perm("myapp.delete_users")
 
     User.objects.get(uid=uid).delete()
 
