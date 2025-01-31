@@ -38,12 +38,14 @@ def logout(request):
     return redirect('loginView')
 
 def profileView(request, uid):
+
+    ## Fix: Korjatussa versiossa id:n sijasta profiili haetaan käyttäjänimen avulla
     user = User.objects.get(uid=uid)
     context = {"user": user}
     return render(request, 'pages/profile.html', context)
 
 def deleteView(request, uid):
-    # @staff_member_required       or
+    # Fix: @staff_member_required       or
     # user.has_perm("myapp.delete_users")
 
     User.objects.get(uid=uid).delete()
@@ -60,4 +62,4 @@ def setUp():
     User.objects.update_or_create(username="Bob", uid=1, password="1234", email="bob@mail.com")[0].save()
     User.objects.update_or_create(username="Leah", uid=2, password="1234", email="leah@mail.com")[0].save()
     User.objects.update_or_create(username="Martin", uid=3, password="1234", email="martin@mail.com")[0].save()
-    User.objects.update_or_create(username="admin", uid=0, password="12345", email="admin@mail.com")[0].save()
+    User.objects.update_or_create(username="admin", uid=0, password="admin", email="admin@mail.com")[0].save()
