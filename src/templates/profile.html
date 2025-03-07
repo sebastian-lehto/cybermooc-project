@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Profiles</title>
-    </head>
+{% extends "base.html" %}
+{% block title %}User: {{user.username}}{% endblock %}
 
-    <body>
+{% block content %}
         
         <form action="/" method="POST">
             {% csrf_token %}
@@ -21,26 +18,21 @@
             </tr>
 			<tr>
                 <td>
-                    {{user.username}}
+                    {{profile.username}}
                 </td>
                 <td>
-                    {{user.uid}}
+                    {{profile.uid}}
                 </td>
                 <td>
-                    {{user.email}}
+                    {{profile.email}}
                 </td>
 			</tr>
         </table>
 
-        <!--  if user.username == admin  -->
+        {% if user.is_authenticated %}
         <form action="/delete/{{user.uid}}" method="POST">
             {% csrf_token %}
             <input type="submit" value="DELETE">
         </form>
-        <!--  endif  -->
-    
-    </body>
-
-
-    </body>
-</html>
+        {% endif %}
+{% endblock %}
