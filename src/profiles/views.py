@@ -1,48 +1,42 @@
 from django.shortcuts import render, redirect
 from django.template import loader
 from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import CreateView
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import get_user_model
+from django.urls import reverse_lazy
 from django.http import HttpResponse
-from .models import User
 
 @login_required(login_url='profiles/login')
 def index(request):
-
+    User = get_user_model()
     users = User.objects.exclude(username="admin")
     context = {"users": users}
     
     return render(request, 'index.html', context)
 
-
-def login(request):
-    
-    username = request.POST["username"]
-    password = request.POST["password"]
-    try:
-        if User.objects.get(username=username).password == password:
-            request.session['username'] = username
-            return redirect('index')
-        return redirect('loginView')
-    except: 
-        return redirect('loginView')
-    
-def logout(request):  
-    del request.session['username']
-    return redirect('loginView')
+class SignUpView(CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy("login")
+    template_name = "registration/signup.html"
 
 @login_required(login_url='profiles/login')
-def profileView(request, uid):
-
-    profile = User.objects.get(uid=uid)
+def profileView(request, username):
+    User = get_user_model()
+    profile = User.objects.get(username=username)
     context = {"profile": profile}
     return render(request, 'profile.html', context)
 
-def deleteView(request, uid):
-    if request.user.is_superuser:
-        User.objects.get(uid=uid).delete()
+def deleteView(request, username):
+    if not request.user.is_superuser:
+        return redirect("/")
 
-        users = User.objects.all()
-        context = {"users": users}
-    
-def loginView(request):
-    return render(request, 'registration/login.html')
+        #!!!!!!!!!!!!
+    User = get_user_model()
+    User.objects.get(username=username).delete()
+
+    users = User.objects.exclude(username="admin")
+    context = {"users": users}
+    return render(request, 'index.html', context)
+
